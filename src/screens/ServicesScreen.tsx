@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Image, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import Badge from '../components/Badge';
 import Grid from '../components/Grid';
@@ -117,18 +117,6 @@ export default function ServicesScreen() {
                 From custom microservice layers to robust cross-platform user interfaces, TrustifyX
                 builds hardened, production-grade applications that guarantee business velocity.
               </Text>
-              <View style={styles.buttons}>
-                <Pressable style={styles.buttonPrimary} accessibilityRole="button">
-                  <Text style={styles.buttonPrimaryText}>CONSULT AN ENGINEER</Text>
-                  <Svg width={16} height={16} viewBox="0 0 24 24">
-                    <Path d="M5 12h14M13 6l6 6-6 6" stroke={colors.white} strokeWidth={2}
-                      strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  </Svg>
-                </Pressable>
-                <Pressable style={styles.buttonOutline} accessibilityRole="button">
-                  <Text style={styles.buttonOutlineText}>VIEW PORTFOLIO</Text>
-                </Pressable>
-              </View>
             </View>
 
             <View style={styles.half}>
@@ -227,41 +215,6 @@ const makeStyles = (colors: Palette) =>
     lineHeight: 25,
     color: colors.text,
     maxWidth: 520,
-    marginBottom: 32,
-  },
-  buttons: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 14,
-  },
-  buttonPrimary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: colors.black,
-    borderWidth: 1.5,
-    borderColor: colors.black,
-    paddingVertical: 12,
-    paddingHorizontal: 22,
-    borderRadius: 6,
-  },
-  buttonPrimaryText: {
-    fontFamily: fonts.semibold,
-    fontSize: 12.5,
-    color: colors.white,
-  },
-  buttonOutline: {
-    justifyContent: 'center',
-    borderWidth: 1.5,
-    borderColor: colors.black,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 6,
-  },
-  buttonOutlineText: {
-    fontFamily: fonts.semibold,
-    fontSize: 12.5,
-    color: colors.black,
   },
   heroImage: {
     width: '100%',
