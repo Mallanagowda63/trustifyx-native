@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "trustifyx-native",
+    "name": "TrustifyX",
     "slug": "trustifyx-native",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true
     },
@@ -19,7 +19,13 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "TrustifyX",
+      "shortName": "TrustifyX",
+      "description": "TrustifyX is a registered Indian software company delivering secure, scalable digital solutions and real-world internship programs.",
+      "themeColor": "#111111",
+      "bundler": "metro",
+      "output": "single"
     },
     "plugins": [
       "expo-font"
