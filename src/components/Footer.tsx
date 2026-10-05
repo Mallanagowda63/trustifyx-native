@@ -2,11 +2,14 @@ import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-na
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import Logo from './Logo';
 import { Page } from './Navbar';
+import { LegalId } from '../data/legal';
 import { Palette, fonts, MAX_WIDTH, WIDE_BREAKPOINT } from '../theme';
 import { useThemed } from '../themeContext';
 
-// Each footer link jumps to the site section that covers it.
-const COLUMNS: { title: string; links: { label: string; to: Page }[] }[] = [
+// Each footer link jumps to the site section that covers it, or opens a legal page.
+type FooterLink = { label: string; to: Page } | { label: string; legal: LegalId };
+
+const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: 'COMPANY',
     links: [
@@ -37,9 +40,9 @@ const COLUMNS: { title: string; links: { label: string; to: Page }[] }[] = [
   {
     title: 'LEGAL',
     links: [
-      { label: 'Privacy Policy', to: 'Contact Us' },
-      { label: 'Terms of Service', to: 'Contact Us' },
-      { label: 'Compliance Guidelines', to: 'Contact Us' },
+      { label: 'Privacy Policy', legal: 'privacy' },
+      { label: 'Terms of Service', legal: 'terms' },
+      { label: 'Compliance Guidelines', legal: 'compliance' },
     ],
   },
 ];
@@ -87,9 +90,10 @@ const SOCIAL = [
 
 type Props = {
   onNavigate: (page: Page) => void;
+  onOpenLegal: (doc: LegalId) => void;
 };
 
-export default function Footer({ onNavigate }: Props) {
+export default function Footer({ onNavigate, onOpenLegal }: Props) {
   const { colors, styles } = useThemed(makeStyles);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
@@ -124,7 +128,11 @@ export default function Footer({ onNavigate }: Props) {
               <View key={col.title} style={[styles.column, isPhone && { width: '50%' }]}>
                 <Text style={styles.colTitle}>{col.title}</Text>
                 {col.links.map((link) => (
-                  <Pressable key={link.label} onPress={() => onNavigate(link.to)} accessibilityRole="link">
+                  <Pressable
+                    key={link.label}
+                    onPress={() => ('legal' in link ? onOpenLegal(link.legal) : onNavigate(link.to))}
+                    accessibilityRole="link"
+                  >
                     <Text style={styles.link}>{link.label}</Text>
                   </Pressable>
                 ))}

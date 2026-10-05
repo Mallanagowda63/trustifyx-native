@@ -15,6 +15,8 @@ import InternshipApplyScreen from './src/screens/InternshipApplyScreen';
 import ContactScreen from './src/screens/ContactScreen';
 import Footer from './src/components/Footer';
 import { Internship } from './src/data/careers';
+import { LegalId } from './src/data/legal';
+import LegalScreen from './src/screens/LegalScreen';
 import { ThemeProvider, useTheme } from './src/themeContext';
 import { useSmoothScroll } from './src/smoothScroll';
 
@@ -53,11 +55,13 @@ function Site() {
   const activeRef = useRef<Page>('Home');
   // When set, the internship application page replaces the scrolling site.
   const [internship, setInternship] = useState<Internship | null>(null);
-  const internshipRef = useRef(internship);
-  internshipRef.current = internship;
+  // When set, a legal page (privacy, terms, compliance) replaces the scrolling site.
+  const [legalDoc, setLegalDoc] = useState<LegalId | null>(null);
+  const awayRef = useRef(false);
+  awayRef.current = !!internship || !!legalDoc;
   // Section to jump to once the site re-mounts after leaving the internship page.
   const pendingSection = useRef<Page | null>(null);
-  const { scrollRef, setRef, scrollTo: smoothScrollTo } = useSmoothScroll(!internship);
+  const { scrollRef, setRef, scrollTo: smoothScrollTo } = useSmoothScroll(!internship && !legalDoc);
 
   // Only the navbar depends on `active`; the sections below are memoized, so
   // crossing a section boundary while scrolling doesn't re-render the whole page.
@@ -68,11 +72,12 @@ function Site() {
 
   const scrollTo = useCallback(
     (page: Page) => {
-      if (internshipRef.current) {
+      if (awayRef.current) {
         if (!SECTIONS.includes(page)) return;
         pendingSection.current = page;
         highlight(page);
         setInternship(null);
+        setLegalDoc(null);
         return;
       }
       const y = offsets.current[page];
@@ -117,13 +122,29 @@ function Site() {
     [scrollTo, smoothScrollTo, highlight],
   );
 
-  const footer = useMemo(() => <Footer onNavigate={scrollTo} />, [scrollTo]);
+  const footer = useMemo(
+    () => (
+      <Footer
+        onNavigate={scrollTo}
+        onOpenLegal={(doc) => {
+          setInternship(null);
+          setLegalDoc(doc);
+        }}
+      />
+    ),
+    [scrollTo],
+  );
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
         <Navbar active={active} onNavigate={scrollTo} />
-        {internship ? (
+        {legalDoc ? (
+          <ScrollView key={`legal-${legalDoc}`}>
+            <LegalScreen doc={legalDoc} onSelect={setLegalDoc} />
+            {footer}
+          </ScrollView>
+        ) : internship ? (
           <ScrollView key="internship">
             <InternshipApplyScreen internship={internship} />
             {footer}
