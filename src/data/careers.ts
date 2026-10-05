@@ -56,20 +56,20 @@ export const INTERNSHIPS: Internship[] = [
     meta: 'Full-time',
     title: 'UI/UX Design Intern',
     team: 'Product Design Team · Tata Digital Studio',
-    location: 'Mumbai, MH',
+    location: 'Bengaluru, KA',
     duration: '12 weeks',
     body: 'Support wireframes, prototypes, and usability testing for web and mobile experiences. Collaborate with product managers and designers to turn feedback into polished interface improvements.',
-    pay: '₹45,000 / month stipend',
+    pay: 'Performance-based stipend',
   },
   {
     tag: 'Engineering',
     meta: 'Summer 2025',
     title: 'Frontend Developer Intern',
     team: 'Web Platform Team · Infosys Labs',
-    location: 'Hyderabad, TS',
+    location: 'Bengaluru, KA',
     duration: '10 weeks',
     body: 'Build responsive interfaces using React, TypeScript, and modern CSS workflows. Help ship bug fixes, accessibility improvements, and small feature enhancements across the product suite.',
-    pay: '₹50,000 / month stipend',
+    pay: 'Performance-based stipend',
   },
   {
     tag: 'Growth',
@@ -79,7 +79,7 @@ export const INTERNSHIPS: Internship[] = [
     location: 'Bengaluru, KA',
     duration: '8 weeks',
     body: 'Assist with campaign planning, social content calendars, email outreach, and performance reporting. Support research, copywriting, and creative coordination for upcoming launches.',
-    pay: '₹35,000 / month stipend',
+    pay: 'Performance-based stipend',
   },
 ];
 

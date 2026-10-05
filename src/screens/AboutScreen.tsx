@@ -23,10 +23,15 @@ const CARDS = [
   },
 ];
 
-const JOURNEY = [
+// White logo on transparent background; the Journey section is always dark.
+const legallyTalkLogo = require('../../assets/images/legally-talk-white.png');
+const LOGO_RATIO = 678 / 269;
+
+const JOURNEY: { year: string; title: string; body: string; logo?: number }[] = [
   {
     year: '2026',
-    title: 'Vakil',
+    title: 'Legally Talk',
+    logo: legallyTalkLogo,
     body: 'TrustifyX was conceptualized to develop a lawyer consultant mobile app that connects legal professionals with clients through streamlined case management and on-demand advisory services.',
   },
   {
@@ -122,7 +127,16 @@ export default function AboutScreen() {
                     <View style={styles.yearDot} />
                   </View>
                   <View style={styles.timelineText}>
-                    <Text style={styles.timelineTitle}>{item.title}</Text>
+                    {item.logo ? (
+                      <Image
+                        source={item.logo}
+                        style={[styles.timelineLogo, { width: 46 * LOGO_RATIO }]}
+                        resizeMode="contain"
+                        accessibilityLabel={item.title}
+                      />
+                    ) : (
+                      <Text style={styles.timelineTitle}>{item.title}</Text>
+                    )}
                     <Text style={styles.timelineBody}>{item.body}</Text>
                   </View>
                 </View>
@@ -310,6 +324,10 @@ const makeStyles = (colors: Palette) =>
     flex: 1,
     maxWidth: 560,
     paddingTop: 4,
+  },
+  timelineLogo: {
+    height: 46,
+    marginBottom: 10,
   },
   timelineTitle: {
     fontFamily: fonts.headingBold,
