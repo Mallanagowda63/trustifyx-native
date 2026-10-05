@@ -33,8 +33,7 @@ export default function InternshipApplyScreen({ internship }: Props) {
   const pad = isWide ? 64 : 16;
   const [expanded, setExpanded] = useState(true);
 
-  // "Product Design Team · Tata Digital Studio" -> "Product Design Team"
-  const team = internship.team.split('·')[0].trim();
+  const { team } = internship;
 
   return (
     <View style={styles.screen}>

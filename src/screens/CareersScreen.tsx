@@ -160,7 +160,6 @@ export default function CareersScreen({ onExplorePositions, onApplyInternship }:
                   <Text style={styles.internMeta}>{job.meta}</Text>
                 </View>
                 <Text style={styles.internName}>{job.title}</Text>
-                <Text style={styles.internTeam}>{job.team}</Text>
 
                 <View style={styles.facts}>
                   <View style={styles.fact}>
@@ -383,12 +382,6 @@ const makeStyles = (colors: Palette) =>
     fontFamily: fonts.semibold,
     fontSize: 22,
     color: colors.black,
-    marginBottom: 6,
-  },
-  internTeam: {
-    fontFamily: fonts.body,
-    fontSize: 13,
-    color: colors.text,
     marginBottom: 18,
   },
   facts: {

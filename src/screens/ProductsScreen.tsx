@@ -6,9 +6,12 @@ import { useThemed } from '../themeContext';
 
 const heroImage = require('../../assets/images/products-hero.jpg');
 const vakilImage = require('../../assets/images/vakil-dashboard.jpg');
+const legallyTalkWhite = require('../../assets/images/legally-talk-white.png');
+const legallyTalkBlack = require('../../assets/images/legally-talk-black.png');
+const LOGO_RATIO = 678 / 269;
 
 export default function ProductsScreen() {
-  const { colors, styles } = useThemed(makeStyles);
+  const { colors, styles, scheme } = useThemed(makeStyles);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
   const isPhone = width < 600;
@@ -78,15 +81,18 @@ export default function ProductsScreen() {
                 source={vakilImage}
                 style={[styles.image, styles.productImage, { height: isWide ? 305 : isPhone ? 200 : 280 }]}
                 resizeMode="cover"
-                accessibilityLabel="Vakil Legal Suite dashboard"
+                accessibilityLabel="Legally Talk dashboard"
               />
             </View>
 
             <View style={styles.half}>
               <Badge label="Legal Tech" uppercase={false} />
-              <Text style={[styles.productTitle, { fontSize: isWide ? 28 : 24 }]}>
-                Vakil Legal Suite
-              </Text>
+              <Image
+                source={scheme === 'dark' ? legallyTalkWhite : legallyTalkBlack}
+                style={[styles.productLogo, { height: isWide ? 64 : 52, width: (isWide ? 64 : 52) * LOGO_RATIO }]}
+                resizeMode="contain"
+                accessibilityLabel="Legally Talk"
+              />
               <Text style={[styles.paragraph, styles.productBody]}>
                 A sleek workspace connecting on-demand legal advisors with patients and corporate
                 partners. Integrates complete virtual consult rooms, and instant compliance
@@ -209,9 +215,7 @@ const makeStyles = (colors: Palette) =>
   productImage: {
     borderRadius: 10,
   },
-  productTitle: {
-    fontFamily: fonts.heading,
-    color: colors.black,
+  productLogo: {
     marginTop: 16,
     marginBottom: 18,
   },
