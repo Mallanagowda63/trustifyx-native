@@ -2,11 +2,11 @@ import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'r
 import Svg, { Path } from 'react-native-svg';
 import Logo from '../components/Logo';
 import Badge from '../components/Badge';
-import BrandArt from '../components/BrandArt';
 import { Palette, fonts, MAX_WIDTH, WIDE_BREAKPOINT } from '../theme';
 import { useThemed } from '../themeContext';
 
 const officeImage = require('../../assets/images/office.jpg');
+const txEmblem = require('../../assets/images/tx-emblem.png');
 
 const CARDS = [
   {
@@ -46,7 +46,11 @@ function Container({ children, isWide }: { children: React.ReactNode; isWide: bo
   return <View style={[styles.container, { paddingHorizontal: isWide ? 64 : 16 }]}>{children}</View>;
 }
 
-export default function AboutScreen() {
+type Props = {
+  onOurServices?: () => void;
+};
+
+export default function AboutScreen({ onOurServices }: Props) {
   const { colors, styles } = useThemed(makeStyles);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
@@ -69,7 +73,7 @@ export default function AboutScreen() {
                   with structured internship programs to create real impact — for businesses and
                   aspiring developers alike.
                 </Text>
-                <Pressable style={styles.button} accessibilityRole="button">
+                <Pressable style={styles.button} onPress={onOurServices} accessibilityRole="button">
                   <Text style={styles.buttonText}>OUR SERVICES</Text>
                   <Svg width={14} height={14} viewBox="0 0 24 24">
                     <Path d="M5 12h14M13 6l6 6-6 6" stroke={colors.white} strokeWidth={2.5}
@@ -171,7 +175,12 @@ export default function AboutScreen() {
 
               <View style={styles.half}>
                 <View style={[styles.artFrame, { height: isWide ? 390 : 240 }]}>
-                  <BrandArt />
+                  <Image
+                    source={txEmblem}
+                    style={styles.emblem}
+                    resizeMode="contain"
+                    accessibilityLabel="TrustifyX TX emblem"
+                  />
                 </View>
               </View>
             </View>
@@ -353,9 +362,18 @@ const makeStyles = (colors: Palette) =>
     fontFamily: fonts.medium,
     color: colors.subtle,
   },
+  // Black matches the emblem artwork's own background, so the image blends into the card.
   artFrame: {
     width: '100%',
     borderRadius: 12,
     overflow: 'hidden',
+    backgroundColor: '#000000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  emblem: {
+    width: '100%',
+    height: '100%',
   },
 });

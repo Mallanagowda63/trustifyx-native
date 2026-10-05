@@ -77,7 +77,7 @@ function Site() {
 
   const content: Record<string, React.ReactNode> = {
     Home: <HomeScreen onExploreServices={() => scrollTo('Services')} />,
-    'About Us': <AboutScreen />,
+    'About Us': <AboutScreen onOurServices={() => scrollTo('Services')} />,
     Services: <ServicesScreen />,
     Products: <ProductsScreen />,
     Careers: (
