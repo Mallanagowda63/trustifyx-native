@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Image, Linking, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import Badge from '../components/Badge';
-import { ADDRESS, BUSINESS_HOURS, CONTACT_EMAIL, FAQS, INQUIRY_TYPES, PHONE } from '../data/company';
+import { CONTACT_EMAIL, FAQS, INQUIRY_TYPES, PHONE } from '../data/company';
 import { Palette, fonts, MAX_WIDTH, WIDE_BREAKPOINT } from '../theme';
 import { useThemed } from '../themeContext';
-
-const mapImage = require('../../assets/images/contact-map.jpg');
 
 const iconStroke = (stroke: string) => ({ stroke, strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' });
 
@@ -19,17 +17,11 @@ function Chevron({ up = false }: { up?: boolean }) {
   );
 }
 
-function InfoIcon({ name }: { name: 'pin' | 'mail' | 'phone' }) {
+function InfoIcon({ name }: { name: 'mail' | 'phone' }) {
   const { colors, styles } = useThemed(makeStyles);
   return (
     <View style={styles.infoIcon}>
       <Svg width={16} height={16} viewBox="0 0 24 24">
-        {name === 'pin' && (
-          <>
-            <Path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" {...iconStroke(colors.black)} />
-            <Circle cx={12} cy={10} r={3} {...iconStroke(colors.black)} />
-          </>
-        )}
         {name === 'mail' && (
           <>
             <Rect x={2} y={4} width={20} height={16} rx={2} {...iconStroke(colors.black)} />
@@ -192,7 +184,6 @@ export default function ContactScreen() {
   const [openFaqs, setOpenFaqs] = useState<boolean[]>(FAQS.map(() => true));
 
   const info = [
-    { icon: 'pin' as const, label: 'OUR HQ LOCATION', value: ADDRESS, url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}` },
     { icon: 'mail' as const, label: 'EMAIL ADDRESS', value: CONTACT_EMAIL, url: `mailto:${CONTACT_EMAIL}` },
     { icon: 'phone' as const, label: 'DIRECT TECH HOTLINE', value: PHONE, url: `tel:${PHONE.replace(/\s/g, '')}` },
   ];
@@ -228,22 +219,6 @@ export default function ContactScreen() {
                 </Pressable>
               ))}
             </View>
-
-            <View style={styles.divider} />
-
-            <Text style={styles.hoursTitle}>Business Hours</Text>
-            <View style={styles.hours}>
-              {BUSINESS_HOURS.map((h) => (
-                <View key={h.day} style={styles.hoursRow}>
-                  <Text style={styles.hoursDay}>{h.day}</Text>
-                  <Text style={styles.hoursTime}>{h.hours}</Text>
-                </View>
-              ))}
-            </View>
-
-            <Pressable style={styles.mapCard} onPress={() => Linking.openURL(info[0].url)} accessibilityRole="link">
-              <Image source={mapImage} style={styles.map} resizeMode="cover" accessibilityLabel="Map to TrustifyX HQ" />
-            </Pressable>
           </View>
         </View>
       </View>
@@ -449,47 +424,6 @@ const makeStyles = (colors: Palette) =>
     fontFamily: fonts.medium,
     fontSize: 13,
     color: colors.black,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: colors.line,
-    marginVertical: 26,
-  },
-  hoursTitle: {
-    fontFamily: fonts.heading,
-    fontSize: 17,
-    color: colors.black,
-    marginBottom: 12,
-  },
-  hours: {
-    gap: 9,
-    marginBottom: 22,
-  },
-  hoursRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  hoursDay: {
-    fontFamily: fonts.body,
-    fontSize: 12.5,
-    color: colors.text,
-  },
-  hoursTime: {
-    fontFamily: fonts.semibold,
-    fontSize: 12.5,
-    color: colors.black,
-  },
-  mapCard: {
-    backgroundColor: colors.section,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 10,
-    padding: 8,
-  },
-  map: {
-    width: '100%',
-    height: 150,
-    borderRadius: 6,
   },
 
   // FAQ

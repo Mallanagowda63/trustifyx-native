@@ -1,13 +1,6 @@
 // Single source for company contact details — change them here and the whole site updates.
 export const CONTACT_EMAIL = 'mallanagowdap99@gmail.com';
-export const PHONE = '+91 98765 43210';
-export const ADDRESS = '14 Sector, Tech City, Karnataka, India';
-
-export const BUSINESS_HOURS = [
-  { day: 'Monday – Friday', hours: '9:00 AM – 6:00 PM' },
-  { day: 'Saturday', hours: '10:00 AM – 2:00 PM' },
-  { day: 'Sunday', hours: 'Closed' },
-];
+export const PHONE = '+91 99015 36003';
 
 export const INQUIRY_TYPES = [
   'Software Development Service',
