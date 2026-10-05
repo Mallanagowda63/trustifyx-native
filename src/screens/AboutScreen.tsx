@@ -32,7 +32,7 @@ const JOURNEY: { year: string; title: string; body: string; logo?: number }[] = 
     year: '2026',
     title: 'Legally Talk',
     logo: legallyTalkLogo,
-    body: 'TrustifyX was conceptualized to develop a lawyer consultant mobile app that connects legal professionals with clients through streamlined case management and on-demand advisory services.',
+    body: 'TrustifyX was conceptualized to develop a lawyer consultation mobile app that connects legal professionals with clients through streamlined case management and on-demand advisory services.',
   },
   {
     year: '2027',
@@ -164,7 +164,7 @@ export default function AboutScreen({ onOurServices }: Props) {
                   engineering quality, structural compliance, and responsive transparency.
                 </Text>
                 <Text style={styles.paragraph}>
-                  The ‘X’ represents the algebraic variable of the unknown — the limitless
+                  The “X” represents the algebraic variable of the unknown — the limitless
                   possibilities, custom architectures, and elite solutions we unlock for our
                   business clients and learning interns alike.
                 </Text>

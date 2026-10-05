@@ -9,6 +9,8 @@ export type LegalSection = {
   heading: string;
   paragraphs?: string[];
   bullets?: string[];
+  /** Shown after the bullets. */
+  note?: string;
 };
 
 export type LegalDoc = {
@@ -53,7 +55,7 @@ export const LEGAL_DOCS: Record<LegalId, LegalDoc> = {
           'To keep records of our communication with you.',
           'To meet our legal and regulatory obligations.',
         ],
-        paragraphs: ['We do not sell your personal information, and we do not use it for advertising.'],
+        note: 'We do not sell your personal information, and we do not use it for advertising.',
       },
       {
         heading: '4. How your information is sent to us',
@@ -88,7 +90,7 @@ export const LEGAL_DOCS: Record<LegalId, LegalDoc> = {
       {
         heading: '8. Security',
         paragraphs: [
-          'We use reasonable technical and organisational safeguards to protect your information, including access controls and encrypted connections. No method of sending or storing data is completely secure, so we cannot guarantee absolute security.',
+          'We use reasonable technical and organizational safeguards to protect your information, including access controls and encrypted connections. No method of sending or storing data is completely secure, so we cannot guarantee absolute security.',
         ],
       },
       {
@@ -147,7 +149,7 @@ export const LEGAL_DOCS: Record<LegalId, LegalDoc> = {
         paragraphs: ['When using this website, you agree not to:'],
         bullets: [
           'Use it for anything unlawful or fraudulent.',
-          'Try to gain unauthorised access to the website or the systems behind it.',
+          'Try to gain unauthorized access to the website or the systems behind it.',
           'Interfere with its normal operation, for example by introducing malicious code.',
           'Send spam or misleading information through our contact channels.',
         ],
@@ -227,7 +229,7 @@ export const LEGAL_DOCS: Record<LegalId, LegalDoc> = {
           'Every code change is reviewed by another engineer before it is merged.',
           'Automated tests and security checks run before code is deployed to production.',
           'Production systems are changed only through approved deployment pipelines.',
-          'Third-party libraries are checked for known vulnerabilities and acceptable licences.',
+          'Third-party libraries are checked for known vulnerabilities and acceptable licenses.',
         ],
       },
       {

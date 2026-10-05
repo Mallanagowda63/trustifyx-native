@@ -32,7 +32,7 @@ export default function ApplicationDetails({ role, kind }: Props) {
   const steps = [
     'Prepare your resume/CV and cover letter.',
     'Include relevant portfolio or GitHub links.',
-    `Send your application via email to ${CONTACT_EMAIL} with the subject line ${subject}.`,
+    `Send your application via email to ${CONTACT_EMAIL} with the subject line "${subject}".`,
   ];
 
   const applyByEmail = () => {

@@ -61,6 +61,7 @@ export default function LegalScreen({ doc, onSelect }: Props) {
                 ))}
               </View>
             )}
+            {section.note && <Text style={[styles.paragraph, styles.note]}>{section.note}</Text>}
           </View>
         ))}
 
@@ -151,6 +152,10 @@ const makeStyles = (colors: Palette) =>
       lineHeight: 24,
       color: colors.text,
       marginBottom: 8,
+    },
+    note: {
+      marginTop: 10,
+      marginBottom: 0,
     },
     bullets: {
       gap: 8,

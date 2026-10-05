@@ -53,7 +53,7 @@ export const JOBS: Job[] = [
 export const INTERNSHIPS: Internship[] = [
   {
     tag: 'Featured',
-    meta: 'Full-time',
+    meta: 'Full-Time',
     title: 'UI/UX Design Intern',
     team: 'Product Design Team',
     location: 'Bengaluru, KA',

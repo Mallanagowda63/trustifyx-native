@@ -228,7 +228,7 @@ export default function ContactScreen() {
         <View style={[styles.container, { paddingHorizontal: pad }]}>
           <View style={styles.faqHead}>
             <Badge label="Intellectual Queries" style={{ alignSelf: 'center' }} />
-            <Text style={[styles.faqTitle, { fontSize: isWide ? 30 : 24 }]}>Frequently Answered Questions</Text>
+            <Text style={[styles.faqTitle, { fontSize: isWide ? 30 : 24 }]}>Frequently Asked Questions</Text>
           </View>
           <View style={styles.faqs}>
             {FAQS.map((faq, i) => (

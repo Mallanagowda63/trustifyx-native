@@ -16,11 +16,11 @@ export const INQUIRY_TYPES = [
 export const FAQS = [
   {
     q: 'How long does it take to deploy a custom software project?',
-    a: 'Typically, standard web and mobile systems take between 6 to 12 weeks from custom design mapping to secure cloud delivery, following rigorous testing protocols.',
+    a: 'Typically, standard web and mobile systems take between 6 and 12 weeks from custom design mapping to secure cloud delivery, following rigorous testing protocols.',
   },
   {
     q: 'Are your internships paid, and do you offer placement guarantees?',
-    a: 'Yes, our immersive internship cohorts receive standard stipends. We provide direct placement services, pairing participants with senior leads to align careers with industry partners.',
+    a: 'Yes, our immersive internship cohorts receive performance-based stipends. We provide direct placement services, pairing participants with senior leads to align careers with industry partners.',
   },
   {
     q: 'What security compliance frameworks does TrustifyX follow?',

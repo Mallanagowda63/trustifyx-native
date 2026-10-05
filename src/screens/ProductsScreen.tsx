@@ -99,9 +99,8 @@ export default function ProductsScreen({ onRequestDemo }: Props) {
                 accessibilityLabel="Legally Talk"
               />
               <Text style={[styles.paragraph, styles.productBody]}>
-                A sleek workspace connecting on-demand legal advisors with patients and corporate
-                partners. Integrates complete virtual consult rooms, and instant compliance
-                tracking.
+                A sleek workspace connecting on-demand legal advisors with clients and corporate
+                partners. Integrates complete virtual consult rooms and instant compliance tracking.
               </Text>
               <Pressable style={styles.textLink} accessibilityRole="link">
                 <Text style={styles.textLinkText}>Request Demo Session</Text>
