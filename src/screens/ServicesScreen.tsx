@@ -90,6 +90,7 @@ export default function ServicesScreen() {
   const { colors, styles } = useThemed(makeStyles);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
+  const half = isWide ? styles.half : styles.halfStacked;
   const isPhone = width < 600;
   const columns = isWide ? 3 : isPhone ? 1 : 2;
   const pad = isWide ? 64 : 16;
@@ -100,7 +101,7 @@ export default function ServicesScreen() {
       <View style={{ paddingVertical: isWide ? 90 : 48 }}>
         <View style={[styles.container, { paddingHorizontal: pad }]}>
           <View style={isWide ? styles.row : styles.column}>
-            <View style={styles.half}>
+            <View style={half}>
               <View style={styles.kicker}>
                 <View style={styles.kickerDot} />
                 <Text style={styles.kickerText}>OUR ENGINEERING SUITE</Text>
@@ -119,7 +120,7 @@ export default function ServicesScreen() {
               </Text>
             </View>
 
-            <View style={styles.half}>
+            <View style={half}>
               <Image
                 source={heroImage}
                 style={[styles.heroImage, { height: isWide ? 370 : isPhone ? 230 : 300 }]}
@@ -178,8 +179,12 @@ const makeStyles = (colors: Palette) =>
   column: {
     gap: 36,
   },
+  // Side by side: share the row equally. Stacked: natural height, so nothing overlaps.
   half: {
     flex: 1,
+    width: '100%',
+  },
+  halfStacked: {
     width: '100%',
   },
 

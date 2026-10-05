@@ -10,10 +10,15 @@ const legallyTalkWhite = require('../../assets/images/legally-talk-white.png');
 const legallyTalkBlack = require('../../assets/images/legally-talk-black.png');
 const LOGO_RATIO = 678 / 269;
 
-export default function ProductsScreen() {
+type Props = {
+  onRequestDemo?: () => void;
+};
+
+export default function ProductsScreen({ onRequestDemo }: Props) {
   const { colors, styles, scheme } = useThemed(makeStyles);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
+  const half = isWide ? styles.half : styles.halfStacked;
   const isPhone = width < 600;
   const pad = isWide ? 64 : 16;
 
@@ -23,7 +28,7 @@ export default function ProductsScreen() {
       <View style={{ paddingVertical: isWide ? 90 : 48 }}>
         <View style={[styles.container, { paddingHorizontal: pad }]}>
           <View style={isWide ? styles.row : styles.column}>
-            <View style={styles.half}>
+            <View style={half}>
               <View style={styles.kicker}>
                 <View style={styles.kickerDot} />
                 <Text style={styles.kickerText}>PROPRIETARY TECH SUITE</Text>
@@ -40,7 +45,7 @@ export default function ProductsScreen() {
                 We deploy proprietary SaaS engines built on highly resilient modern codebases. Gain
                 immediate market leverage with pre-certified modules tailored cleanly to your niche.
               </Text>
-              <Pressable style={styles.button} accessibilityRole="button">
+              <Pressable style={styles.button} onPress={onRequestDemo} accessibilityRole="button">
                 <Text style={styles.buttonText}>REQUEST A CUSTOM DEMO</Text>
                 <Svg width={16} height={16} viewBox="0 0 24 24">
                   <Path d="M5 12h14M13 6l6 6-6 6" stroke={colors.white} strokeWidth={2}
@@ -49,7 +54,7 @@ export default function ProductsScreen() {
               </Pressable>
             </View>
 
-            <View style={styles.half}>
+            <View style={half}>
               <Image
                 source={heroImage}
                 style={[styles.image, { height: isWide ? 360 : isPhone ? 230 : 300 }]}
@@ -76,7 +81,7 @@ export default function ProductsScreen() {
           </View>
 
           <View style={isWide ? styles.row : styles.column}>
-            <View style={styles.half}>
+            <View style={half}>
               <Image
                 source={vakilImage}
                 style={[styles.image, styles.productImage, { height: isWide ? 305 : isPhone ? 200 : 280 }]}
@@ -85,7 +90,7 @@ export default function ProductsScreen() {
               />
             </View>
 
-            <View style={styles.half}>
+            <View style={half}>
               <Badge label="Legal Tech" uppercase={false} />
               <Image
                 source={scheme === 'dark' ? legallyTalkWhite : legallyTalkBlack}
@@ -131,8 +136,12 @@ const makeStyles = (colors: Palette) =>
   column: {
     gap: 36,
   },
+  // Side by side: share the row equally. Stacked: natural height, so nothing overlaps.
   half: {
     flex: 1,
+    width: '100%',
+  },
+  halfStacked: {
     width: '100%',
   },
 

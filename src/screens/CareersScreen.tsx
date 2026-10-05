@@ -42,6 +42,7 @@ export default function CareersScreen({ onExplorePositions, onApplyInternship }:
   const rolesY = useRef(0);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
+  const half = isWide ? styles.half : styles.halfStacked;
   const isPhone = width < 600;
   const columns = isWide ? 3 : isPhone ? 1 : 2;
   const pad = isWide ? 64 : 16;
@@ -53,7 +54,7 @@ export default function CareersScreen({ onExplorePositions, onApplyInternship }:
       <View style={{ paddingVertical: isWide ? 90 : 48 }}>
         <View style={container}>
           <View style={isWide ? styles.row : styles.column}>
-            <View style={styles.half}>
+            <View style={half}>
               <View style={styles.kicker}>
                 <View style={styles.kickerDot} />
                 <Text style={styles.kickerText}>JOIN OUR DEV TEAM</Text>
@@ -77,7 +78,7 @@ export default function CareersScreen({ onExplorePositions, onApplyInternship }:
               </Pressable>
             </View>
 
-            <View style={styles.half}>
+            <View style={half}>
               <Image
                 source={heroImage}
                 style={[styles.image, { height: isWide ? 400 : isPhone ? 230 : 300 }]}
@@ -236,8 +237,12 @@ const makeStyles = (colors: Palette) =>
   column: {
     gap: 36,
   },
+  // Side by side: share the row equally. Stacked: natural height, so nothing overlaps.
   half: {
     flex: 1,
+    width: '100%',
+  },
+  halfStacked: {
     width: '100%',
   },
   gray: {

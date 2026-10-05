@@ -54,6 +54,7 @@ export default function AboutScreen({ onOurServices }: Props) {
   const { colors, styles } = useThemed(makeStyles);
   const { width } = useWindowDimensions();
   const isWide = width >= WIDE_BREAKPOINT;
+  const half = isWide ? styles.half : styles.halfStacked;
   const row = isWide ? styles.row : styles.column;
 
   return (
@@ -62,7 +63,7 @@ export default function AboutScreen({ onOurServices }: Props) {
         <View style={[styles.section, { paddingVertical: isWide ? 90 : 48 }]}>
           <Container isWide={isWide}>
             <View style={[row, styles.centered]}>
-              <View style={styles.half}>
+              <View style={half}>
                 <View style={styles.aboutTitle}>
                   <Text style={[styles.aboutText, { fontSize: isWide ? 50 : 38 }]}>About </Text>
                   <Logo size={isWide ? 30 : 23} />
@@ -82,7 +83,7 @@ export default function AboutScreen({ onOurServices }: Props) {
                 </Pressable>
               </View>
 
-              <View style={styles.half}>
+              <View style={half}>
                 <Image
                   source={officeImage}
                   style={[styles.heroImage, { height: isWide ? 420 : 260 }]}
@@ -99,7 +100,7 @@ export default function AboutScreen({ onOurServices }: Props) {
           <Container isWide={isWide}>
             <View style={[row, { alignItems: 'stretch' }]}>
               {CARDS.map((card) => (
-                <View key={card.badge} style={[styles.card, styles.half]}>
+                <View key={card.badge} style={[styles.card, half]}>
                   <Badge label={card.badge} />
                   <Text style={[styles.cardTitle, { fontSize: isWide ? 24 : 20 }]}>{card.title}</Text>
                   <Text style={styles.cardBody}>{card.body}</Text>
@@ -153,7 +154,7 @@ export default function AboutScreen({ onOurServices }: Props) {
         <View style={[styles.section, { paddingVertical: isWide ? 90 : 48 }]}>
           <Container isWide={isWide}>
             <View style={[row, styles.centered]}>
-              <View style={styles.half}>
+              <View style={half}>
                 <Badge label="Brand Ethos" />
                 <Text style={[styles.whyTitle, { fontSize: isWide ? 34 : 28 }]}>
                   Why the Name TrustifyX?
@@ -173,7 +174,7 @@ export default function AboutScreen({ onOurServices }: Props) {
                 </Text>
               </View>
 
-              <View style={styles.half}>
+              <View style={half}>
                 <View style={[styles.artFrame, { height: isWide ? 390 : 240 }]}>
                   <Image
                     source={txEmblem}
@@ -220,8 +221,12 @@ const makeStyles = (colors: Palette) =>
   centered: {
     alignItems: 'center',
   },
+  // Side by side: share the row equally. Stacked: natural height, so nothing overlaps.
   half: {
     flex: 1,
+    width: '100%',
+  },
+  halfStacked: {
     width: '100%',
   },
 

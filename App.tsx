@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ import ContactScreen from './src/screens/ContactScreen';
 import Footer from './src/components/Footer';
 import { Internship } from './src/data/careers';
 import { ThemeProvider, useTheme } from './src/themeContext';
+import { useSmoothScroll } from './src/smoothScroll';
 
 // Page order on the single scrolling site; links without a section are ignored.
 const SECTIONS: Page[] = ['Home', 'About Us', 'Services', 'Products', 'Careers', 'Contact Us'];
@@ -23,20 +24,13 @@ const SECTIONS: Page[] = ['Home', 'About Us', 'Services', 'Products', 'Careers',
 export default function App() {
   return (
     <ThemeProvider>
-      <Site />
+      <FontGate />
     </ThemeProvider>
   );
 }
 
-function Site() {
-  const { colors, scheme } = useTheme();
-  const scrollRef = useRef<ScrollView>(null);
-  const offsets = useRef<Partial<Record<Page, number>>>({});
-  const [active, setActive] = useState<Page>('Home');
-  // When set, the internship application page replaces the scrolling site.
-  const [internship, setInternship] = useState<Internship | null>(null);
-  // Section to jump to once the site re-mounts after leaving the internship page.
-  const pendingSection = useRef<Page | null>(null);
+function FontGate() {
+  const { colors } = useTheme();
   const [loaded] = useFonts({
     Outfit_700Bold,
     Outfit_800ExtraBold,
@@ -49,50 +43,81 @@ function Site() {
   if (!loaded) {
     return <View style={{ flex: 1, backgroundColor: colors.white }} />;
   }
+  return <Site />;
+}
 
-  const scrollTo = (page: Page) => {
-    if (internship) {
-      if (!SECTIONS.includes(page)) return;
-      pendingSection.current = page;
-      setActive(page);
-      setInternship(null);
-      return;
-    }
-    const y = offsets.current[page];
-    if (y === undefined) return;
+function Site() {
+  const { colors, scheme } = useTheme();
+  const offsets = useRef<Partial<Record<Page, number>>>({});
+  const [active, setActive] = useState<Page>('Home');
+  const activeRef = useRef<Page>('Home');
+  // When set, the internship application page replaces the scrolling site.
+  const [internship, setInternship] = useState<Internship | null>(null);
+  const internshipRef = useRef(internship);
+  internshipRef.current = internship;
+  // Section to jump to once the site re-mounts after leaving the internship page.
+  const pendingSection = useRef<Page | null>(null);
+  const { scrollRef, setRef, scrollTo: smoothScrollTo } = useSmoothScroll(!internship);
+
+  // Only the navbar depends on `active`; the sections below are memoized, so
+  // crossing a section boundary while scrolling doesn't re-render the whole page.
+  const highlight = useCallback((page: Page) => {
+    activeRef.current = page;
     setActive(page);
-    scrollRef.current?.scrollTo({ y, animated: true });
-  };
+  }, []);
+
+  const scrollTo = useCallback(
+    (page: Page) => {
+      if (internshipRef.current) {
+        if (!SECTIONS.includes(page)) return;
+        pendingSection.current = page;
+        highlight(page);
+        setInternship(null);
+        return;
+      }
+      const y = offsets.current[page];
+      if (y === undefined) return;
+      highlight(page);
+      smoothScrollTo(y);
+    },
+    [highlight, smoothScrollTo],
+  );
 
   // Highlight the last section whose top has passed the upper part of the viewport.
-  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const y = e.nativeEvent.contentOffset.y + 120;
-    let current: Page = 'Home';
-    for (const page of SECTIONS) {
-      const top = offsets.current[page];
-      if (top !== undefined && y >= top) current = page;
-    }
-    if (current !== active) setActive(current);
-  };
+  const onScroll = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const y = e.nativeEvent.contentOffset.y + 120;
+      let current: Page = 'Home';
+      for (const page of SECTIONS) {
+        const top = offsets.current[page];
+        if (top !== undefined && y >= top) current = page;
+      }
+      if (current !== activeRef.current) highlight(current);
+    },
+    [highlight],
+  );
 
-  const content: Record<string, React.ReactNode> = {
-    Home: <HomeScreen onExploreServices={() => scrollTo('Services')} />,
-    'About Us': <AboutScreen onOurServices={() => scrollTo('Services')} />,
-    Services: <ServicesScreen />,
-    Products: <ProductsScreen />,
-    Careers: (
-      <CareersScreen
-        onExplorePositions={(offsetY) =>
-          scrollRef.current?.scrollTo({ y: (offsets.current.Careers ?? 0) + offsetY, animated: true })
-        }
-        onApplyInternship={(item) => {
-          setActive('Careers');
-          setInternship(item);
-        }}
-      />
-    ),
-    'Contact Us': <ContactScreen />,
-  };
+  const content = useMemo<Record<string, React.ReactNode>>(
+    () => ({
+      Home: <HomeScreen onExploreServices={() => scrollTo('Services')} />,
+      'About Us': <AboutScreen onOurServices={() => scrollTo('Services')} />,
+      Services: <ServicesScreen />,
+      Products: <ProductsScreen onRequestDemo={() => scrollTo('Contact Us')} />,
+      Careers: (
+        <CareersScreen
+          onExplorePositions={(offsetY) => smoothScrollTo((offsets.current.Careers ?? 0) + offsetY)}
+          onApplyInternship={(item) => {
+            highlight('Careers');
+            setInternship(item);
+          }}
+        />
+      ),
+      'Contact Us': <ContactScreen />,
+    }),
+    [scrollTo, smoothScrollTo, highlight],
+  );
+
+  const footer = useMemo(() => <Footer onNavigate={scrollTo} />, [scrollTo]);
 
   return (
     <SafeAreaProvider>
@@ -101,10 +126,10 @@ function Site() {
         {internship ? (
           <ScrollView key="internship">
             <InternshipApplyScreen internship={internship} />
-            <Footer onNavigate={scrollTo} />
+            {footer}
           </ScrollView>
         ) : (
-          <ScrollView key="site" ref={scrollRef} onScroll={onScroll} scrollEventThrottle={16}>
+          <ScrollView key="site" ref={setRef} onScroll={onScroll} scrollEventThrottle={16}>
             {SECTIONS.map((page) => (
               <View
                 key={page}
@@ -120,7 +145,7 @@ function Site() {
                 {content[page]}
               </View>
             ))}
-            <Footer onNavigate={scrollTo} />
+            {footer}
           </ScrollView>
         )}
         <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
