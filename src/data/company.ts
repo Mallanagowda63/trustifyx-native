@@ -1,6 +1,12 @@
 // Single source for company contact details — change them here and the whole site updates.
-export const CONTACT_EMAIL = 'mallanagowdap99@gmail.com';
+export const CONTACT_EMAIL = 'infotrustifyx@gmail.com';
 export const PHONE = '+91 99015 36003';
+
+export const SOCIAL_LINKS = {
+  x: 'https://x.com/home',
+  linkedin: 'https://www.linkedin.com/in/trustify-x-0b0215443/',
+  instagram: 'https://www.instagram.com/trustify_x',
+};
 
 export const INQUIRY_TYPES = [
   'Software Development Service',

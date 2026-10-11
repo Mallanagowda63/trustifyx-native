@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import Logo from './Logo';
 import { Page } from './Navbar';
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '../data/company';
 import { LegalId } from '../data/legal';
 import { Palette, fonts, MAX_WIDTH, WIDE_BREAKPOINT } from '../theme';
 import { useThemed } from '../themeContext';
@@ -52,20 +53,18 @@ const iconProps = { stroke: '#ffffff', strokeWidth: 2, strokeLinecap: 'round' as
 
 const SOCIAL = [
   {
-    name: 'Facebook',
-    icon: <Path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" {...iconProps} />,
-  },
-  {
-    name: 'Twitter',
+    name: 'X',
+    url: SOCIAL_LINKS.x,
     icon: (
-      <Path
-        d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
-        {...iconProps}
-      />
+      <>
+        <Path d="M4 4l11.733 16h4.267l-11.733-16z" {...iconProps} />
+        <Path d="M4 20l6.768-6.768m2.46-2.46L20 4" {...iconProps} />
+      </>
     ),
   },
   {
     name: 'LinkedIn',
+    url: SOCIAL_LINKS.linkedin,
     icon: (
       <>
         <Path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" {...iconProps} />
@@ -75,14 +74,23 @@ const SOCIAL = [
     ),
   },
   {
-    name: 'GitHub',
+    name: 'Instagram',
+    url: SOCIAL_LINKS.instagram,
     icon: (
       <>
-        <Path
-          d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-          {...iconProps}
-        />
-        <Path d="M9 18c-4.51 2-5-2-7-2" {...iconProps} />
+        <Rect x={2} y={2} width={20} height={20} rx={5} {...iconProps} />
+        <Circle cx={12} cy={12} r={4} {...iconProps} />
+        <Path d="M17.5 6.5h.01" {...iconProps} />
+      </>
+    ),
+  },
+  {
+    name: 'Email',
+    url: `mailto:${CONTACT_EMAIL}`,
+    icon: (
+      <>
+        <Rect x={2} y={4} width={20} height={16} rx={2} {...iconProps} />
+        <Path d="M22 7l-10 5L2 7" {...iconProps} />
       </>
     ),
   },
@@ -114,11 +122,17 @@ export default function Footer({ onNavigate, onOpenLegal }: Props) {
             </Text>
             <View style={styles.social}>
               {SOCIAL.map((s) => (
-                <View key={s.name} style={styles.socialIcon} accessibilityLabel={s.name}>
+                <Pressable
+                  key={s.name}
+                  style={styles.socialIcon}
+                  onPress={() => Linking.openURL(s.url)}
+                  accessibilityRole="link"
+                  accessibilityLabel={s.name}
+                >
                   <Svg width={13} height={13} viewBox="0 0 24 24">
                     {s.icon}
                   </Svg>
-                </View>
+                </Pressable>
               ))}
             </View>
           </View>
