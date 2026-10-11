@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { Outfit_700Bold, Outfit_800ExtraBold } from '@expo-google-fonts/outfit';
@@ -44,7 +44,10 @@ function FontGate() {
     Inter_700Bold,
   });
 
-  const [launched, setLaunched] = useState(() => Date.now() >= LAUNCH_AT);
+  // `?preview` in the address skips the countdown so the team can check the site before launch.
+  const [launched, setLaunched] = useState(
+    () => Date.now() >= LAUNCH_AT || (Platform.OS === 'web' && new URLSearchParams(window.location.search).has('preview')),
+  );
   const onLaunch = useCallback(() => setLaunched(true), []);
 
   if (!loaded) {
