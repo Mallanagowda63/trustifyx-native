@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Image, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Svg, { Defs, Path, Pattern, RadialGradient, Rect, Stop } from 'react-native-svg';
 import { SOCIAL } from '../components/Footer';
-import { CONTACT_EMAIL, LAUNCH_AT, LAUNCH_LABEL } from '../data/company';
+import { CONTACT_EMAIL, LAUNCH_LABEL } from '../data/company';
 import { fonts } from '../theme';
 
 // The launch page is always dark, whatever the device mode.
@@ -22,20 +22,20 @@ const useNativeDriver = Platform.OS !== 'web';
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
-function remaining(now: number) {
-  const ms = Math.max(0, LAUNCH_AT - now);
+function remaining(now: number, launchAt: number) {
+  const ms = Math.max(0, launchAt - now);
   const s = Math.floor(ms / 1000);
   return { ms, days: Math.floor(s / 86400), hours: Math.floor((s % 86400) / 3600), minutes: Math.floor((s % 3600) / 60), seconds: s % 60 };
 }
 
-type Props = { onLaunch: () => void };
+type Props = { launchAt: number; onLaunch: () => void };
 
-export default function ComingSoonScreen({ onLaunch }: Props) {
+export default function ComingSoonScreen({ launchAt, onLaunch }: Props) {
   const { width } = useWindowDimensions();
   const isWide = width >= 900;
   const isPhone = width < 520;
   const [now, setNow] = useState(Date.now());
-  const left = remaining(now);
+  const left = remaining(now, launchAt);
 
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);

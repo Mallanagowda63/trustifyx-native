@@ -15,6 +15,7 @@ import InternshipApplyScreen from './src/screens/InternshipApplyScreen';
 import ContactScreen from './src/screens/ContactScreen';
 import Footer from './src/components/Footer';
 import ComingSoonScreen from './src/screens/ComingSoonScreen';
+import LaunchOverlay from './src/components/LaunchOverlay';
 import { LAUNCH_AT } from './src/data/company';
 import { Internship } from './src/data/careers';
 import { LegalId } from './src/data/legal';
@@ -44,16 +45,29 @@ function FontGate() {
     Inter_700Bold,
   });
 
-  // `?preview` in the address skips the countdown so the team can check the site before launch.
-  const [launched, setLaunched] = useState(
-    () => Date.now() >= LAUNCH_AT || (Platform.OS === 'web' && new URLSearchParams(window.location.search).has('preview')),
-  );
-  const onLaunch = useCallback(() => setLaunched(true), []);
+  // `?preview` skips the countdown so the team can check the site before launch;
+  // `?launchdemo` runs a 5-second countdown to show the launch animation.
+  const params = Platform.OS === 'web' ? new URLSearchParams(window.location.search) : null;
+  const [launchAt] = useState(() => (params?.has('launchdemo') ? Date.now() + 5000 : LAUNCH_AT));
+  const [launched, setLaunched] = useState(() => Date.now() >= launchAt || !!params?.has('preview'));
+  // The celebration only plays for visitors who were watching when the clock hit zero.
+  const [celebrating, setCelebrating] = useState(false);
+  const onLaunch = useCallback(() => {
+    setLaunched(true);
+    setCelebrating(true);
+  }, []);
+  const onCelebrated = useCallback(() => setCelebrating(false), []);
 
   if (!loaded) {
     return <View style={{ flex: 1, backgroundColor: launched ? colors.white : '#0a0a0c' }} />;
   }
-  return launched ? <Site /> : <ComingSoonScreen onLaunch={onLaunch} />;
+  if (!launched) return <ComingSoonScreen launchAt={launchAt} onLaunch={onLaunch} />;
+  return (
+    <View style={{ flex: 1 }}>
+      <Site />
+      {celebrating && <LaunchOverlay onDone={onCelebrated} />}
+    </View>
+  );
 }
 
 function Site() {
