@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Linking, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import Badge from '../components/Badge';
+import ReviewsSection from '../components/ReviewsSection';
 import { CONTACT_EMAIL, FAQS, INQUIRY_TYPES, PHONE } from '../data/company';
 import { Palette, fonts, MAX_WIDTH, WIDE_BREAKPOINT } from '../theme';
 import { useThemed } from '../themeContext';
@@ -222,6 +223,9 @@ export default function ContactScreen() {
           </View>
         </View>
       </View>
+
+      {/* ---------- Reviews ---------- */}
+      <ReviewsSection />
 
       {/* ---------- FAQ ---------- */}
       <View style={[styles.gray, { paddingVertical: isWide ? 80 : 56 }]}>

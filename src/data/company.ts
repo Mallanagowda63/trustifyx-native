@@ -6,6 +6,11 @@ export const PHONE = '+91 99015 36003';
 export const LAUNCH_AT = new Date('2026-10-12T00:00:00+05:30').getTime();
 export const LAUNCH_LABEL = '12 Oct 2026 · 12:00 AM IST';
 
+// Paste the Google Business Profile "Ask for reviews" link here (looks like https://g.page/r/.../review).
+// Until then the button opens a Google search for TrustifyX, where the review box appears once the profile is live.
+export const GOOGLE_REVIEW_URL = '';
+export const GOOGLE_REVIEW_FALLBACK = 'https://www.google.com/search?q=TrustifyX+Bengaluru';
+
 export const SOCIAL_LINKS = {
   x: 'https://x.com/home',
   linkedin: 'https://www.linkedin.com/in/trustify-x-0b0215443/',
