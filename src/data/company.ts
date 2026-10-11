@@ -2,6 +2,10 @@
 export const CONTACT_EMAIL = 'infotrustifyx@gmail.com';
 export const PHONE = '+91 99015 36003';
 
+// Until this moment visitors see the Coming Soon page; the site opens itself when it passes.
+export const LAUNCH_AT = new Date('2026-10-12T00:00:00+05:30').getTime();
+export const LAUNCH_LABEL = '12 Oct 2026 · 12:00 AM IST';
+
 export const SOCIAL_LINKS = {
   x: 'https://x.com/home',
   linkedin: 'https://www.linkedin.com/in/trustify-x-0b0215443/',

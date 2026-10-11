@@ -51,7 +51,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
 // Footer is always dark, so its icons stay white in both modes.
 const iconProps = { stroke: '#ffffff', strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' };
 
-const SOCIAL = [
+export const SOCIAL = [
   {
     name: 'X',
     url: SOCIAL_LINKS.x,

@@ -14,6 +14,8 @@ import CareersScreen from './src/screens/CareersScreen';
 import InternshipApplyScreen from './src/screens/InternshipApplyScreen';
 import ContactScreen from './src/screens/ContactScreen';
 import Footer from './src/components/Footer';
+import ComingSoonScreen from './src/screens/ComingSoonScreen';
+import { LAUNCH_AT } from './src/data/company';
 import { Internship } from './src/data/careers';
 import { LegalId } from './src/data/legal';
 import LegalScreen from './src/screens/LegalScreen';
@@ -42,10 +44,13 @@ function FontGate() {
     Inter_700Bold,
   });
 
+  const [launched, setLaunched] = useState(() => Date.now() >= LAUNCH_AT);
+  const onLaunch = useCallback(() => setLaunched(true), []);
+
   if (!loaded) {
-    return <View style={{ flex: 1, backgroundColor: colors.white }} />;
+    return <View style={{ flex: 1, backgroundColor: launched ? colors.white : '#0a0a0c' }} />;
   }
-  return <Site />;
+  return launched ? <Site /> : <ComingSoonScreen onLaunch={onLaunch} />;
 }
 
 function Site() {
