@@ -44,10 +44,10 @@ export const VALUES = [
 ];
 
 export const JOBS: Job[] = [
-  { title: 'Senior DevOps Engineer', team: 'Infrastructure', location: 'Karnataka, India (Hybrid)', type: 'Full-Time' },
-  { title: 'Lead Full-Stack Developer', team: 'Engineering Suite', location: 'Noida, UP (Onsite)', type: 'Full-Time' },
-  { title: 'SaaS Product Designer', team: 'UI/UX Design', location: 'Remote (India)', type: 'Contract' },
-  { title: 'QA Automation Lead', team: 'Systems Verification', location: 'Karnataka, India (Hybrid)', type: 'Full-Time' },
+  { title: 'Senior DevOps Engineer', team: 'Infrastructure', location: 'Bengaluru, Karnataka', type: 'Remote' },
+  { title: 'Lead Full-Stack Developer', team: 'Engineering Suite', location: 'Bengaluru, Karnataka', type: 'Remote' },
+  { title: 'SaaS Product Designer', team: 'UI/UX Design', location: 'Bengaluru, Karnataka', type: 'Contract' },
+  { title: 'QA Automation Lead', team: 'Systems Verification', location: 'Bengaluru, Karnataka', type: 'Remote' },
 ];
 
 export const INTERNSHIPS: Internship[] = [
